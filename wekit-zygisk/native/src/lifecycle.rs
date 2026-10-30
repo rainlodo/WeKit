@@ -128,7 +128,7 @@ fn read_module_apk(module_dir: OwnedFd) -> Result<Vec<u8>> {
         "open module.apk: {}",
         std::io::Error::last_os_error()
     );
-    let mut apk = File::from_raw_fd(fd);
+    let mut apk = unsafe { File::from_raw_fd(fd) };
     let metadata = apk.metadata()?;
     ensure!(metadata.is_file(), "module.apk is not a regular file");
     let size = metadata.len();
